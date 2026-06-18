@@ -184,3 +184,13 @@ git commit -m "Document weekly routine execution in README"
 - [ ] **Step 3: 不一致があれば修正する**
 
 Step 2のいずれかが期待と異なる場合、`ROUTINE.md`（Task 1）またはTask 3のプロンプトを修正し、再度Step 1〜2を実施する。
+
+---
+
+## 実行時の補正（Task 4で判明）
+
+実行中に以下2点が判明し、`ROUTINE.md`・spec・README・cronジョブ設定を修正した：
+
+1. **実行時刻**：ユーザーが当初の月曜9:00 JSTから**月曜7:00 JST**（cron式 `0 22 * * 0` UTC）に変更を希望したため変更。
+2. **通知方式**：cronジョブのプロンプトに含めていた「プッシュ通知」は、クラウドエージェント環境に対応するツール（`PushNotification`）が無いことが原因で実行が完了しない不具合につながった疑いがあるため、`allowed_tools`から除外し、完了時は最後のテキスト出力（トピック名・レポートファイル名・コミットハッシュ・要点）に変更した。
+3. **既存の重複ジョブ**：今回作成したジョブとは別に、過去のセッションで作成済みの同種ジョブが2件（`trig_013PcUF5ibUqHHhTUWQivgxY`, `trig_013zoggTxZa3NKZxy7AX3JeW`）見つかったため、`enabled: false`に更新して無効化した（API経由では削除不可、完全削除は https://claude.ai/code/routines で手動対応が必要）。
